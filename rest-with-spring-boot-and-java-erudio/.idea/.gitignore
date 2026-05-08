@@ -1,0 +1,21 @@
+# --- JAVA/MAVEN SPECIFIC ---
+target/
+*.jar
+*.war
+*.ear
+
+# --- IDE SPECIFIC (Você já tem alguns, mas esses garantem) ---
+.idea/
+*.iml
+.vscode/
+.settings/
+.classpath
+.project
+
+# --- O QUE VOCÊ JÁ TINHA ---
+/shelf/
+/workspace.xml
+/httpRequests/
+/queries/
+/dataSources/
+/dataSources.local.xml
