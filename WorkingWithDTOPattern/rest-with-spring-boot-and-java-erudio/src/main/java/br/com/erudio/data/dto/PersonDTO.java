@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import jakarta.xml.bind.annotation.XmlRootElement;
 //import com.fasterxml.jackson.annotation.JsonIgnore;
 //import com.fasterxml.jackson.annotation.JsonProperty;
 //import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -13,8 +14,9 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 
+
 //@JsonPropertyOrder({"id","first_name","last_name","address","gender"})
-@JsonFilter("PersonFilter")
+
 public class PersonDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
