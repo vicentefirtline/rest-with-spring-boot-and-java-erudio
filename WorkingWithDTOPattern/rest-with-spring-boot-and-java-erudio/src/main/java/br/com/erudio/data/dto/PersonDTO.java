@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import jakarta.xml.bind.annotation.XmlRootElement;
+import org.springframework.hateoas.RepresentationModel;
 //import com.fasterxml.jackson.annotation.JsonIgnore;
 //import com.fasterxml.jackson.annotation.JsonProperty;
 //import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -14,10 +15,10 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 
-
+//@JsonFilter("PersonFilter")
 //@JsonPropertyOrder({"id","first_name","last_name","address","gender"})
 
-public class PersonDTO implements Serializable {
+public class PersonDTO extends RepresentationModel<PersonDTO> implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

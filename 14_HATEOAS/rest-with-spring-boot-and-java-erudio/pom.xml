@@ -18,6 +18,7 @@
 		<dozer.version>7.0.0</dozer.version>
 	</properties>
 	<dependencies>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
@@ -27,16 +28,21 @@
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>com.fasterxml.jackson.dataformat</groupId>
-			<artifactId>jackson-dataformat-xml</artifactId>
-		</dependency>
-		<dependency>
 			<groupId>org.springframework.hateoas</groupId>
 			<artifactId>spring-hateoas</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.dataformat</groupId>
+			<artifactId>jackson-dataformat-xml</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.dataformat</groupId>
 			<artifactId>jackson-dataformat-yaml</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.mysql</groupId>
+			<artifactId>mysql-connector-j</artifactId>
+			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.flywaydb</groupId>
@@ -63,15 +69,7 @@
 			<scope>runtime</scope>
 			<optional>true</optional>
 		</dependency>
-
-		<dependency>
-			<groupId>com.mysql</groupId>
-			<artifactId>mysql-connector-j</artifactId>
-			<scope>runtime</scope>
-		</dependency>
 	</dependencies>
-
-
 
 	<build>
 		<plugins>
@@ -82,22 +80,23 @@
 			<plugin>
 				<groupId>org.flywaydb</groupId>
 				<artifactId>flyway-maven-plugin</artifactId>
-			    <configuration>
-					<url>jdbc:mysql://localhost:3306/databasespring?useTimezone=true&amp;serverTimezone=UTC</url>
+				<configuration>
+					<url>jdbc:mysql://localhost:3306/rest_with_spring_boot_erudio?useTimezone=true&amp;serverTimezone=UTC</url>
 					<user>root</user>
-					<password>root</password>
+					<password>admin123</password>
 				</configuration>
 				<dependencies>
 					<dependency>
 						<groupId>com.mysql</groupId>
 						<artifactId>mysql-connector-j</artifactId>
 						<version>9.1.0</version>
-						<scope>runtime</scope>
 						<exclusions>
 							<exclusion>
 								<groupId>org.slf4j</groupId>
 								<artifactId>slf4j-api</artifactId>
-							</exclusion></exclusions>
+							</exclusion>
+						</exclusions>
+
 					</dependency>
 				</dependencies>
 			</plugin>
