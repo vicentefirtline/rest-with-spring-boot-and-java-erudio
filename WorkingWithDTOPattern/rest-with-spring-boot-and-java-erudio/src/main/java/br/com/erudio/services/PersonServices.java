@@ -22,7 +22,6 @@ import java.util.concurrent.atomic.AtomicLong;
 @Service
 public class PersonServices {
 
-    private final AtomicLong counter = new AtomicLong();
     private Logger logger = LoggerFactory.getLogger(PersonServices.class.getName());
 
     @Autowired
@@ -33,9 +32,10 @@ public class PersonServices {
 
         logger.info("Finding all People!");
 
-        var dto = parseListObjects(repository.findAll(), PersonDTO.class);
-        addHateoasLinks(dto);
-        return dto;
+        var persons = parseListObjects(repository.findAll(), PersonDTO.class);
+        persons.forEach(this::addHateoasLinks);
+
+        return persons;
     }
 
     public PersonDTO findById(Long id) {
@@ -83,7 +83,7 @@ public class PersonServices {
         repository.delete(entity);
     }
 
-    private static void addHateoasLinks(PersonDTO dto) {
+    private  void addHateoasLinks(PersonDTO dto) {
         dto.add(linkTo(methodOn(PersonController.class).findById(dto.getId())).withSelfRel().withType("GET"));
         dto.add(linkTo(methodOn(PersonController.class).findById(dto.getId())).withRel("delete").withType("DELETE"));
         dto.add(linkTo(methodOn(PersonController.class).findAll()).withRel("findAll").withType("GET"));
