@@ -1,5 +1,6 @@
 package br.com.erudio.services;
 
+import br.com.erudio.data.dto.PersonDTO;
 import br.com.erudio.model.Person;
 import br.com.erudio.repository.PersonRepository;
 import br.com.erudio.unitetests.mapper.mocks.MockPerson;
@@ -14,8 +15,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
 
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -63,12 +65,12 @@ class PersonServicesTest {
 
         assertNotNull(result.getLinks().stream()
                 .anyMatch(link -> link.getRel().value().equals("create")
-                        && link.getHref().endsWith("/api/person/v1/1")
+                        && link.getHref().endsWith("/api/person/v1")
                         && link.getType().equals("POST")));
 
         assertNotNull(result.getLinks().stream()
                 .anyMatch(link -> link.getRel().value().equals("update")
-                        && link.getHref().endsWith("/api/person/v1/1")
+                        && link.getHref().endsWith("/api/person/v1")
                         && link.getType().equals("PUT")));
 
         assertNotNull(result.getLinks().stream()
@@ -77,10 +79,10 @@ class PersonServicesTest {
                         && link.getType().equals("DELETE")));
 
 
-        assertEquals("Address Test",result.getAddress());
-        assertEquals("First Name Test",result.getFirstName());
-        assertEquals("Last Name Test",result.getLastName());
-        assertEquals("Male",result.getGender());
+        assertEquals("Address Test1",result.getAddress());
+        assertEquals("First Name Test1",result.getFirstName());
+        assertEquals("Last Name Test1",result.getLastName());
+        assertEquals("Female",result.getGender());
     }
 
 
@@ -88,14 +90,115 @@ class PersonServicesTest {
 
     @Test
     void create() {
+        Person person = input.mockEntity(1);
+        Person persisted = person;
+        persisted.setId(1L); //valor inteiro tipo long
+
+        PersonDTO dto = input.mockDTO(1);
+
+        when(repository.save(person)).thenReturn(persisted);
+        var result = service.create(dto);
+
+        assertNotNull(result);
+        assertNotNull(result.getId());
+        assertNotNull(result.getLinks());
+        assertNotNull(result.getLinks().stream()
+                .anyMatch(link -> link.getRel().value().equals("self")
+                        && link.getHref().endsWith("/api/person/v1/1")
+                        && link.getType().equals("GET")));
+
+        //verificando um dado de um link depois do self do content negotiation.
+        // verificando o verbo GET do http.
+
+        assertNotNull(result.getLinks().stream()
+                .anyMatch(link -> link.getRel().value().equals("findAll")
+                        && link.getHref().endsWith("/api/person/v1")
+                        && link.getType().equals("GET")));
+
+        assertNotNull(result.getLinks().stream()
+                .anyMatch(link -> link.getRel().value().equals("create")
+                        && link.getHref().endsWith("/api/person/v1")
+                        && link.getType().equals("POST")));
+
+        assertNotNull(result.getLinks().stream()
+                .anyMatch(link -> link.getRel().value().equals("update")
+                        && link.getHref().endsWith("/api/person/v1")
+                        && link.getType().equals("PUT")));
+
+        assertNotNull(result.getLinks().stream()
+                .anyMatch(link -> link.getRel().value().equals("delete")
+                        && link.getHref().endsWith("/api/person/v1/1")
+                        && link.getType().equals("DELETE")));
+
+
+        assertEquals("Address Test1",result.getAddress());
+        assertEquals("First Name Test1",result.getFirstName());
+        assertEquals("Last Name Test1",result.getLastName());
+        assertEquals("Female",result.getGender());
     }
+
+
 
     @Test
     void update() {
+        Person person = input.mockEntity(1);
+        Person persisted = person;
+        persisted.setId(1L); //valor inteiro tipo long
+
+        PersonDTO dto = input.mockDTO(1);
+
+        when(repository.findById(1L)).thenReturn(Optional.of(person));
+        when(repository.save(person)).thenReturn(persisted);
+        var result = service.update(dto);
+
+        assertNotNull(result);
+        assertNotNull(result.getId());
+        assertNotNull(result.getLinks());
+        assertNotNull(result.getLinks().stream()
+                .anyMatch(link -> link.getRel().value().equals("self")
+                        && link.getHref().endsWith("/api/person/v1/1")
+                        && link.getType().equals("GET")));
+
+        //verificando um dado de um link depois do self do content negotiation.
+        // verificando o verbo GET do http.
+
+        assertNotNull(result.getLinks().stream()
+                .anyMatch(link -> link.getRel().value().equals("findAll")
+                        && link.getHref().endsWith("/api/person/v1")
+                        && link.getType().equals("GET")));
+
+        assertNotNull(result.getLinks().stream()
+                .anyMatch(link -> link.getRel().value().equals("create")
+                        && link.getHref().endsWith("/api/person/v1")
+                        && link.getType().equals("POST")));
+
+        assertNotNull(result.getLinks().stream()
+                .anyMatch(link -> link.getRel().value().equals("update")
+                        && link.getHref().endsWith("/api/person/v1")
+                        && link.getType().equals("PUT")));
+
+        assertNotNull(result.getLinks().stream()
+                .anyMatch(link -> link.getRel().value().equals("delete")
+                        && link.getHref().endsWith("/api/person/v1/1")
+                        && link.getType().equals("DELETE")));
+
+
+        assertEquals("Address Test1",result.getAddress());
+        assertEquals("First Name Test1",result.getFirstName());
+        assertEquals("Last Name Test1",result.getLastName());
+        assertEquals("Female",result.getGender());
+
     }
 
     @Test
     void delete() {
+        Person person = input.mockEntity(1);
+        person.setId(1L); //valor inteiro tipo long
+        when(repository.findById(1L)).thenReturn(Optional.of(person));
+         service.delete(1L);
+         verify(repository,times(1)).findById(anyLong()) ;
+        verify(repository,times(1)).delete(any(Person.class)) ;
+        verifyNoInteractions(repository);
     }
 
     @Test
