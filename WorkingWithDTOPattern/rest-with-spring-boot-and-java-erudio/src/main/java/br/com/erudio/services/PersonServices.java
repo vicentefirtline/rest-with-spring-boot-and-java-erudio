@@ -2,6 +2,7 @@ package br.com.erudio.services;
 
 import br.com.erudio.controllers.PersonController;
 import br.com.erudio.data.dto.PersonDTO;
+import br.com.erudio.exception.RequiredObjectsNullException;
 import br.com.erudio.exception.ResourceNotFoundException;
 import static br.com.erudio.mapper.ObjectMapper.parseListObjects;
 import static br.com.erudio.mapper.ObjectMapper.parseObject;
@@ -50,6 +51,8 @@ public class PersonServices {
 
     public PersonDTO create(PersonDTO person) {
 
+        if (person == null) throw new RequiredObjectsNullException(); //testei para mockito
+
         logger.info("Creating one Person!");
         var entity = parseObject(person, Person.class);
 
@@ -59,6 +62,8 @@ public class PersonServices {
     }
 
     public PersonDTO update(PersonDTO person) {
+
+        if (person == null) throw new RequiredObjectsNullException();
 
         logger.info("Updating one Person!");
         Person entity = repository.findById(person.getId())

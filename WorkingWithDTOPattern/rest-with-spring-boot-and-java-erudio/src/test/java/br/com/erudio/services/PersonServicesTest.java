@@ -1,6 +1,7 @@
 package br.com.erudio.services;
 
 import br.com.erudio.data.dto.PersonDTO;
+import br.com.erudio.exception.RequiredObjectsNullException;
 import br.com.erudio.model.Person;
 import br.com.erudio.repository.PersonRepository;
 import br.com.erudio.unitetests.mapper.mocks.MockPerson;
@@ -13,6 +14,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -138,6 +140,17 @@ class PersonServicesTest {
     }
 
 
+    @Test
+    void testCreateWithNullPerson() {
+        Exception exception = assertThrows(RequiredObjectsNullException.class,
+                ()->{
+            service.create(null);
+        });
+        String expectedMessage = "NAO E PERMITIDO PERSISTIR UMA ENTIDADE COM VALOR NULO, IS NOT ALLOWED TO PERSIST A NULL OBJECT!";
+        String actualMessage = exception.getMessage();
+        assertTrue(actualMessage.contains(expectedMessage));
+    }
+
 
     @Test
     void update() {
@@ -191,6 +204,17 @@ class PersonServicesTest {
     }
 
     @Test
+    void testUpdadeWithNullPerson() {
+        Exception exception = assertThrows(RequiredObjectsNullException.class,
+                ()->{
+                    service.update(null);
+                });
+        String expectedMessage = "NAO E PERMITIDO PERSISTIR UMA ENTIDADE COM VALOR NULO, IS NOT ALLOWED TO PERSIST A NULL OBJECT!";
+        String actualMessage = exception.getMessage();
+        assertTrue(actualMessage.contains(expectedMessage));
+    }
+
+    @Test
     void delete() {
         Person person = input.mockEntity(1);
         person.setId(1L); //valor inteiro tipo long
@@ -198,11 +222,136 @@ class PersonServicesTest {
          service.delete(1L);
          verify(repository,times(1)).findById(anyLong()) ;
         verify(repository,times(1)).delete(any(Person.class)) ;
-        verifyNoInteractions(repository);
+        verifyNoMoreInteractions(repository);
     }
 
     @Test
     void findAll() {
+        List<Person> list = input.mockEntityList();
+        when(repository.findAll()).thenReturn(list);
+        List<PersonDTO> people = service.findAll();
+
+        assertNotNull(people);
+        assertEquals(14,people.size());
+
+        var personOne = people.get(1);
+
+        assertNotNull(personOne);
+        assertNotNull(personOne.getId());
+        assertNotNull(personOne.getLinks());
+        assertNotNull(personOne.getLinks().stream()
+                .anyMatch(link -> link.getRel().value().equals("self")
+                        && link.getHref().endsWith("/api/person/v1/1")
+                        && link.getType().equals("GET")));
+
+        //verificando um dado de um link depois do self do content negotiation.
+        // verificando o verbo GET do http.
+
+        assertNotNull(personOne.getLinks().stream()
+                .anyMatch(link -> link.getRel().value().equals("findAll")
+                        && link.getHref().endsWith("/api/person/v1")
+                        && link.getType().equals("GET")));
+
+        assertNotNull(personOne.getLinks().stream()
+                .anyMatch(link -> link.getRel().value().equals("create")
+                        && link.getHref().endsWith("/api/person/v1")
+                        && link.getType().equals("POST")));
+
+        assertNotNull(personOne.getLinks().stream()
+                .anyMatch(link -> link.getRel().value().equals("update")
+                        && link.getHref().endsWith("/api/person/v1")
+                        && link.getType().equals("PUT")));
+
+        assertNotNull(personOne.getLinks().stream()
+                .anyMatch(link -> link.getRel().value().equals("delete")
+                        && link.getHref().endsWith("/api/person/v1/1")
+                        && link.getType().equals("DELETE")));
+
+
+        assertEquals("Address Test1",personOne.getAddress());
+        assertEquals("First Name Test1",personOne.getFirstName());
+        assertEquals("Last Name Test1",personOne.getLastName());
+        assertEquals("Female",personOne.getGender());
+
+       var personFour = people.get(4);
+
+        assertNotNull(personFour);
+        assertNotNull(personFour.getId());
+        assertNotNull(personFour.getLinks());
+        assertNotNull(personFour.getLinks().stream()
+                .anyMatch(link -> link.getRel().value().equals("self")
+                        && link.getHref().endsWith("/api/person/v1/4")
+                        && link.getType().equals("GET")));
+
+        //verificando um dado de um link depois do self do content negotiation.
+        // verificando o verbo GET do http.
+
+        assertNotNull(personFour.getLinks().stream()
+                .anyMatch(link -> link.getRel().value().equals("findAll")
+                        && link.getHref().endsWith("/api/person/v1")
+                        && link.getType().equals("GET")));
+
+        assertNotNull(personFour.getLinks().stream()
+                .anyMatch(link -> link.getRel().value().equals("create")
+                        && link.getHref().endsWith("/api/person/v1")
+                        && link.getType().equals("POST")));
+
+        assertNotNull(personFour.getLinks().stream()
+                .anyMatch(link -> link.getRel().value().equals("update")
+                        && link.getHref().endsWith("/api/person/v1")
+                        && link.getType().equals("PUT")));
+
+        assertNotNull(personFour.getLinks().stream()
+                .anyMatch(link -> link.getRel().value().equals("delete")
+                        && link.getHref().endsWith("/api/person/v1/4")
+                        && link.getType().equals("DELETE")));
+
+
+        assertEquals("Address Test4",personFour.getAddress());
+        assertEquals("First Name Test4",personFour.getFirstName());
+        assertEquals("Last Name Test4",personFour.getLastName());
+        assertEquals("Male",personFour.getGender());
+
+        var personSeven = people.get(7);
+
+        assertNotNull(personSeven);
+        assertNotNull(personSeven.getId());
+        assertNotNull(personSeven.getLinks());
+        assertNotNull(personSeven.getLinks().stream()
+                .anyMatch(link -> link.getRel().value().equals("self")
+                        && link.getHref().endsWith("/api/person/v1/7")
+                        && link.getType().equals("GET")));
+
+        //verificando um dado de um link depois do self do content negotiation.
+        // verificando o verbo GET do http.
+
+        assertNotNull(personSeven.getLinks().stream()
+                .anyMatch(link -> link.getRel().value().equals("findAll")
+                        && link.getHref().endsWith("/api/person/v1")
+                        && link.getType().equals("GET")));
+
+        assertNotNull(personSeven.getLinks().stream()
+                .anyMatch(link -> link.getRel().value().equals("create")
+                        && link.getHref().endsWith("/api/person/v1")
+                        && link.getType().equals("POST")));
+
+        assertNotNull(personSeven.getLinks().stream()
+                .anyMatch(link -> link.getRel().value().equals("update")
+                        && link.getHref().endsWith("/api/person/v1")
+                        && link.getType().equals("PUT")));
+
+        assertNotNull(personSeven.getLinks().stream()
+                .anyMatch(link -> link.getRel().value().equals("delete")
+                        && link.getHref().endsWith("/api/person/v1/7")
+                        && link.getType().equals("DELETE")));
+
+
+        assertEquals("Address Test7",personSeven.getAddress());
+        assertEquals("First Name Test7",personSeven.getFirstName());
+        assertEquals("Last Name Test7",personSeven.getLastName());
+        assertEquals("Female",personSeven.getGender());
+
+
     }
 
 }
