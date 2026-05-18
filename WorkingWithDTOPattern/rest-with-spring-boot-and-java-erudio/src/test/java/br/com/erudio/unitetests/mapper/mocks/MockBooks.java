@@ -39,7 +39,7 @@ public class MockBooks {
         book.setId(number.longValue());
         book.setAuthor("Author Test" + number);
         book.setLaunchDate(new Date(System.currentTimeMillis() - (number * 24 * 60 * 60 * 1000L)));
-        book.setPrice(new BigDecimal("10.0").multiply(new BigDecimal(number)));
+        book.setPrice(new BigDecimal("25.0").multiply(new BigDecimal(number)));
         book.setTitle("Title Test" + number);
         return book;
     }
@@ -49,7 +49,7 @@ public class MockBooks {
         book.setId(number.longValue());
         book.setAuthor("Author Test" + number);
         book.setLaunchDate(new Date(System.currentTimeMillis() - (number * 24 * 60 * 60 * 1000L)));
-        book.setPrice(new BigDecimal("10.0").multiply(new BigDecimal(number)));
+        book.setPrice(new BigDecimal("25.0").multiply(new BigDecimal(number)));
         book.setTitle("Title Test" + number);
         return book;
     }

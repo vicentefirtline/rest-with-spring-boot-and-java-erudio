@@ -19,6 +19,7 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.awt.print.Book;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -88,6 +89,8 @@ class BooksServicesTest {
 
         assertEquals("Author Test1" ,result.getAuthor());
         assertEquals("Title Test1",result.getTitle());
+        assertEquals(new BigDecimal("25.0"),result.getPrice());
+        assertNotNull(result.getLaunchDate());
     }
 
 
@@ -138,6 +141,8 @@ class BooksServicesTest {
 
         assertEquals("Author Test1" ,result.getAuthor());
         assertEquals("Title Test1",result.getTitle());
+        assertEquals(new BigDecimal("25.0"),result.getPrice());
+        assertNotNull(result.getLaunchDate());
     }
 
 
@@ -199,6 +204,8 @@ class BooksServicesTest {
 
         assertEquals("Author Test1" ,result.getAuthor());
         assertEquals("Title Test1",result.getTitle());
+        assertEquals(new BigDecimal("25.0"),result.getPrice());
+        assertNotNull(result.getLaunchDate());
 
     }
 
@@ -270,6 +277,8 @@ class BooksServicesTest {
 
         assertEquals("Author Test1" ,booksOne.getAuthor());
         assertEquals("Title Test1",booksOne.getTitle());
+        assertEquals(new BigDecimal("25.0"),booksOne.getPrice());
+        assertNotNull(booksOne.getLaunchDate());
 
        var booksFour = books.get(4);
 
@@ -307,6 +316,8 @@ class BooksServicesTest {
 
         assertEquals("Author Test4" ,booksFour.getAuthor());
         assertEquals("Title Test4",booksFour.getTitle());
+        assertEquals(new BigDecimal("100.0"),booksFour.getPrice());
+        assertNotNull(booksFour.getLaunchDate());
 
         var booksSeven = books.get(7);
 
@@ -344,6 +355,8 @@ class BooksServicesTest {
 
         assertEquals("Author Test7" ,booksSeven.getAuthor());
         assertEquals("Title Test7",booksSeven.getTitle());
+        assertEquals(new BigDecimal("175.0"),booksSeven.getPrice());
+        assertNotNull(booksSeven.getLaunchDate());
 
 
 
