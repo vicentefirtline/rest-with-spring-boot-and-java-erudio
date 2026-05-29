@@ -14,6 +14,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/person/v1")
 @Tag(name = "People", description = "Endpoints for Managing People")
+//@CrossOrigin(origins = "http://localhost:8080")//isso bloqueia os acessos externos, apenas esse dominio será aceito
+
 public class PersonController implements PersonControllerDocs {
 
     @Autowired
@@ -28,6 +30,7 @@ public class PersonController implements PersonControllerDocs {
         return service.findAll();
     }
 
+    @CrossOrigin(origins = "http://localhost:8080")
     @GetMapping(value = "/{id}",
             produces = {
                     MediaType.APPLICATION_JSON_VALUE,
@@ -39,6 +42,7 @@ public class PersonController implements PersonControllerDocs {
         return service.findById(id);
     }
 
+    @CrossOrigin(origins = "http://localhost:8080")
     @PostMapping(
             consumes = {
                     MediaType.APPLICATION_JSON_VALUE,
