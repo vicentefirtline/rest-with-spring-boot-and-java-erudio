@@ -1,5 +1,6 @@
 package br.com.erudio.mapper;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.github.dozermapper.core.DozerBeanMapperBuilder;
 import com.github.dozermapper.core.Mapper;
 
@@ -21,5 +22,11 @@ public class ObjectMapper {
             destinationObjects.add(mapper.map(o, destination));
         }
         return destinationObjects;
+    }
+
+    public void disable(DeserializationFeature failOnIgnoredProperties) {
+    }
+
+    public void readValue(String content, Class<br.com.erudio.integrationtests.dto.PersonDTO> personDTOClass) {
     }
 }

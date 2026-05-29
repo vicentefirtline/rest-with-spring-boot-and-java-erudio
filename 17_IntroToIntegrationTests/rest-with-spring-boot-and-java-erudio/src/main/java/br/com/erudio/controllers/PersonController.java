@@ -30,7 +30,7 @@ public class PersonController implements PersonControllerDocs {
         return service.findAll();
     }
 
-    @CrossOrigin(origins = "http://localhost:8080")
+    //@CrossOrigin(origins = "http://localhost:8080")
     @GetMapping(value = "/{id}",
             produces = {
                     MediaType.APPLICATION_JSON_VALUE,
@@ -42,7 +42,7 @@ public class PersonController implements PersonControllerDocs {
         return service.findById(id);
     }
 
-    @CrossOrigin(origins = "http://localhost:8080")
+    //@CrossOrigin(origins = "http://localhost:8080")
     @PostMapping(
             consumes = {
                     MediaType.APPLICATION_JSON_VALUE,
