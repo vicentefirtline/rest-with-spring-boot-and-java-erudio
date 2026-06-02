@@ -9,7 +9,7 @@ import static io.restassured.RestAssured.given;
 import static junit.framework.TestCase.assertTrue;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
-class SwaggerIntegrationTest /* extends AbstractIntegrationTest*/{
+class SwaggerIntegrationTest /*extends AbstractIntegrationTest nao funciona na minha maquina*/{
 
 	@Test
 	void shouldDisplaySwaggerUIPage() {

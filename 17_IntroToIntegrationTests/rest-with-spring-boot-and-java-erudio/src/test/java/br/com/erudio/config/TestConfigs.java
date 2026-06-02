@@ -7,7 +7,9 @@ public interface TestConfigs {
     String HEADER_PARAM_AUTHORIZATION = "Authorization";
     String HEADER_PARAM_ORIGIN = "Origin";
     String ORIGIN_ERUDIO = "https://www.erudio.com.br";
-    String ORIGIN_SEMERU = "https://www.erudio.com.br";
+    String ORIGIN_SEMERU = "https://www.google.com.br";
+    String ORIGIN_LOCAL = "https://localhost:8080";
+
 
 
 }
