@@ -1,9 +1,8 @@
-package br.com.erudio.integrationtests.controllers.withjson;
+package br.com.erudio.integrationtests.controllers.cors.withjson;
 
 import br.com.erudio.config.TestConfigs;
 import br.com.erudio.integrationtests.dto.PersonDTO;
 
-import br.com.erudio.integrationtests.testcontainers.AbstractIntegrationTest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -12,7 +11,6 @@ import io.restassured.filter.log.LogDetail;
 import io.restassured.filter.log.RequestLoggingFilter;
 import io.restassured.filter.log.ResponseLoggingFilter;
 import io.restassured.specification.RequestSpecification;
-import org.junit.Before;
 import org.junit.jupiter.api.*;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
@@ -24,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)//organiza
-class PersonControllerTest /* nao funciona na minha maquina extends AbstractIntegrationTest */{
+class PersonControllerCorsTest /* nao funciona na minha maquina extends AbstractIntegrationTest */{
 
     private static RequestSpecification specification;
     private static ObjectMapper objectMapper;
@@ -75,6 +73,7 @@ class PersonControllerTest /* nao funciona na minha maquina extends AbstractInte
         assertEquals("Coimbra",createdPerson.getLastName());
         assertEquals("Santa Maria",createdPerson.getAddress());
         assertEquals("Male",createdPerson.getGender());
+        assertTrue(createdPerson.getEnabled());
     }
     @Test
     @Order(2)
@@ -143,6 +142,7 @@ class PersonControllerTest /* nao funciona na minha maquina extends AbstractInte
         assertEquals("Coimbra",createdPerson.getLastName());
         assertEquals("Santa Maria",createdPerson.getAddress());
         assertEquals("Male",createdPerson.getGender());
+        assertTrue(createdPerson.getEnabled());
     }
     @Test
     @Order(4) //ordem dos testes
@@ -188,6 +188,7 @@ class PersonControllerTest /* nao funciona na minha maquina extends AbstractInte
         person.setLastName("Coimbra");
         person.setAddress("Santa Maria");
         person.setGender("Male");
+        person.setEnabled(true);
     }
 
 }
