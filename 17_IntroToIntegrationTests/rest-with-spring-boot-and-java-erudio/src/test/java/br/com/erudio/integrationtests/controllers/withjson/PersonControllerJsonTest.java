@@ -4,6 +4,7 @@ import br.com.erudio.config.TestConfigs;
 import br.com.erudio.integrationtests.dto.PersonDTO;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.builder.RequestSpecBuilder;
@@ -15,7 +16,10 @@ import org.junit.jupiter.api.*;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 
+import java.util.List;
+
 import static io.restassured.RestAssured.given;
+import static junit.framework.Assert.assertFalse;
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -37,7 +41,7 @@ class PersonControllerJsonTest /* nao funciona na minha maquina extends Abstract
 
     @Test
     @Order(1)
-    void create() throws JsonProcessingException {
+    void createTest() throws JsonProcessingException {
         mockPerson();
         specification = new RequestSpecBuilder()
                 .addHeader(TestConfigs.HEADER_PARAM_ORIGIN,TestConfigs.ORIGIN_ERUDIO)
@@ -77,27 +81,57 @@ class PersonControllerJsonTest /* nao funciona na minha maquina extends Abstract
     }
 
     @Test
-    @Order(2) //ordem dos testes
-    void findById() throws JsonProcessingException {
-
+    @Order(2)
+    void updateTest() throws JsonProcessingException {
+        person.setLastName("Coimbra");
 
         var content = given(specification)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .pathParam("id",person.getId())
+                .body(person)
                 .when()
-                .get("{id}")
+                .put()
                 .then()
                 .statusCode(200)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .extract()
                 .body()
                 .asString();
 
-        PersonDTO createdPerson = objectMapper.readValue(content,PersonDTO.class);
+        PersonDTO createdPerson = objectMapper.readValue(content, PersonDTO.class);
         person = createdPerson;
 
         assertNotNull(createdPerson.getId());
-        assertTrue(createdPerson.getId() >0);
+        assertTrue(createdPerson.getId() > 0);
 
+        assertEquals("Vicente brabo",createdPerson.getFirstName());
+        assertEquals("Coimbra",createdPerson.getLastName());
+        assertEquals("Santa Maria",createdPerson.getAddress());
+        assertEquals("Male",createdPerson.getGender());
+        assertTrue(createdPerson.getEnabled());
+
+    }
+
+    @Test
+    @Order(3)
+    void findByIdTest() throws JsonProcessingException {
+
+        var content = given(specification)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .pathParam("id", person.getId())
+                .when()
+                .get("{id}")
+                .then()
+                .statusCode(200)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .extract()
+                .body()
+                .asString();
+
+        PersonDTO createdPerson = objectMapper.readValue(content, PersonDTO.class);
+        person = createdPerson;
+
+        assertNotNull(createdPerson.getId());
+        assertTrue(createdPerson.getId() > 0);
 
         assertEquals("Vicente brabo",createdPerson.getFirstName());
         assertEquals("Coimbra",createdPerson.getLastName());
@@ -106,19 +140,86 @@ class PersonControllerJsonTest /* nao funciona na minha maquina extends Abstract
         assertTrue(createdPerson.getEnabled());
     }
 
-
-
-
     @Test
-    void update() {
+    @Order(4)
+    void disableTest() throws JsonProcessingException {
+
+        var content = given(specification)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .pathParam("id", person.getId())
+                .when()
+                .patch("{id}")
+                .then()
+                .statusCode(200)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .extract()
+                .body()
+                .asString();
+
+        PersonDTO createdPerson = objectMapper.readValue(content, PersonDTO.class);
+        person = createdPerson;
+
+        assertNotNull(createdPerson.getId());
+        assertTrue(createdPerson.getId() > 0);
+
+        assertEquals("Vicente brabo",createdPerson.getFirstName());
+        assertEquals("Coimbra",createdPerson.getLastName());
+        assertEquals("Santa Maria",createdPerson.getAddress());
+        assertEquals("Male",createdPerson.getGender());
+        assertFalse(createdPerson.getEnabled());
     }
 
     @Test
-    void delete() {
+    @Order(5)
+    void deleteTest() throws JsonProcessingException {
+
+        given(specification)
+                .pathParam("id", person.getId())
+                .when()
+                .delete("{id}")
+                .then()
+                .statusCode(204);
     }
 
+
     @Test
-    void findAll() {
+    @Order(6)
+    void findAllTest() throws JsonProcessingException {
+
+        var content = given(specification)
+                .accept(MediaType.APPLICATION_JSON_VALUE)
+                .when()
+                .get()
+                .then()
+                .statusCode(200)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .extract()
+                .body()
+                .asString();
+
+        List<PersonDTO> people = objectMapper.readValue(content, new TypeReference<List<PersonDTO>>() {});
+
+        PersonDTO personOne = people.get(0);
+
+        assertNotNull(personOne.getId());
+        assertTrue(personOne.getId() > 0);
+
+        assertEquals("Ayrton", personOne.getFirstName());
+        assertEquals("Senna", personOne.getLastName());
+        assertEquals("São Paulo - Brasil", personOne.getAddress());
+        assertEquals("Male", personOne.getGender());
+        assertFalse(personOne.getEnabled());
+
+        PersonDTO personFour = people.get(3);
+
+        assertNotNull(personFour.getId());
+        assertTrue(personFour.getId() > 0);
+
+        assertEquals("Mahatma", personFour.getFirstName());
+        assertEquals("Gandhi", personFour.getLastName());
+        assertEquals("Porbandar - India", personFour.getAddress());
+        assertEquals("Male", personFour.getGender());
+        assertFalse(personFour.getEnabled());
     }
 
     private void mockPerson() {
@@ -128,5 +229,7 @@ class PersonControllerJsonTest /* nao funciona na minha maquina extends Abstract
         person.setGender("Male");
         person.setEnabled(true);
     }
-
 }
+
+
+
