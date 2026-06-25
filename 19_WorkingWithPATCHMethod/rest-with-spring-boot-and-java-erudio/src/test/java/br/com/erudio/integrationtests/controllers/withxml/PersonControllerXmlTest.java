@@ -25,7 +25,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class PersonControllerXmlTest extends AbstractIntegrationTest {
+class PersonControllerXmlTest /*(extends AbstractIntegrationTest */{
 
     private static RequestSpecification specification;
     private static XmlMapper objectMapper;
