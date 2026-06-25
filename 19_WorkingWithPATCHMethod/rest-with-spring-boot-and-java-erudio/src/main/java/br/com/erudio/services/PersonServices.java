@@ -55,9 +55,9 @@ public class PersonServices {
                 findAllLink);
     }
 
-    public PagedModel<EntityModel<PersonDTO>> findPeopleByName(String firstName, Pageable pageable) {
+    public PagedModel<EntityModel<PersonDTO>> findByName(String firstName, Pageable pageable) {
 
-        logger.info("Finding people by People!");
+        logger.info("Finding people by name!");
 
         var people = repository.findPeopleByName(firstName, pageable);
         var peopleWithLinks = people.map(person -> {
