@@ -14,4 +14,12 @@ public class PersonEmbeddedDTO implements Serializable {
     private List<PersonDTO> people;
 
     public PersonEmbeddedDTO() {}
+
+    public List<PersonDTO> getPeople() {
+        return people;
+    }
+
+    public void setPeople(List<PersonDTO> people) {
+        this.people = people;
+    }
 }
