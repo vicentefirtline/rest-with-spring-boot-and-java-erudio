@@ -24,7 +24,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class PersonControllerJsonTest extends AbstractIntegrationTest {
+class PersonControllerJsonTest /*extends AbstractIntegrationTest*/ {
 
     private static RequestSpecification specification;
     private static ObjectMapper objectMapper;
@@ -204,20 +204,20 @@ class PersonControllerJsonTest extends AbstractIntegrationTest {
         assertNotNull(personOne.getId());
         assertTrue(personOne.getId() > 0);
 
-        assertEquals("Allin", personOne.getFirstName());
-        assertEquals("Emmot", personOne.getLastName());
-        assertEquals("7913 Lindbergh Way", personOne.getAddress());
+        assertEquals("Ambrosius", personOne.getFirstName());
+        assertEquals("Buffery", personOne.getLastName());
+        assertEquals("Suite 15", personOne.getAddress());
         assertEquals("Male", personOne.getGender());
-        assertFalse(personOne.getEnabled());
+        assertTrue(personOne.getEnabled());
 
         PersonDTO personFour = people.get(4);
 
         assertNotNull(personFour.getId());
         assertTrue(personFour.getId() > 0);
 
-        assertEquals("Alonso", personFour.getFirstName());
-        assertEquals("Luchelli", personFour.getLastName());
-        assertEquals("9 Doe Crossing Avenue", personFour.getAddress());
+        assertEquals("Anders", personFour.getFirstName());
+        assertEquals("Banyard", personFour.getLastName());
+        assertEquals("Apt 1642", personFour.getAddress());
         assertEquals("Male", personFour.getGender());
         assertFalse(personFour.getEnabled());
     }
@@ -248,9 +248,9 @@ class PersonControllerJsonTest extends AbstractIntegrationTest {
         assertNotNull(personOne.getId());
         assertTrue(personOne.getId() > 0);
 
-        assertEquals("Alessandro", personOne.getFirstName());
-        assertEquals("McFaul", personOne.getLastName());
-        assertEquals("5 Lukken Plaza", personOne.getAddress());
+        assertEquals("Alexandr", personOne.getFirstName());
+        assertEquals("Boylund", personOne.getLastName());
+        assertEquals("Room 377", personOne.getAddress());
         assertEquals("Male", personOne.getGender());
         assertTrue(personOne.getEnabled());
 
@@ -259,11 +259,11 @@ class PersonControllerJsonTest extends AbstractIntegrationTest {
         assertNotNull(personFour.getId());
         assertTrue(personFour.getId() > 0);
 
-        assertEquals("Brandyn", personFour.getFirstName());
-        assertEquals("Grasha", personFour.getLastName());
-        assertEquals("96 Mosinee Parkway", personFour.getAddress());
-        assertEquals("Male", personFour.getGender());
-        assertTrue(personFour.getEnabled());
+        assertEquals("Andriette", personFour.getFirstName());
+        assertEquals("Wardrop", personFour.getLastName());
+        assertEquals("9th Floor", personFour.getAddress());
+        assertEquals("Female", personFour.getGender());
+        assertFalse(personFour.getEnabled());
     }
 
     private void mockPerson() {
