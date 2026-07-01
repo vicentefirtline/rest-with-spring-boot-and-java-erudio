@@ -3,10 +3,8 @@ package br.com.erudio.integrationtests.controllers.withyaml;
 import br.com.erudio.config.TestConfigs;
 import br.com.erudio.integrationtests.controllers.withyaml.mapper.YAMLMapper;
 import br.com.erudio.integrationtests.dto.PersonDTO;
-import br.com.erudio.integrationtests.testcontainers.AbstractIntegrationTest;
+import br.com.erudio.integrationtests.dto.wrappers.xmlandyaml.PagedModelPerson;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.config.EncoderConfig;
 import io.restassured.config.RestAssuredConfig;
@@ -19,7 +17,6 @@ import org.junit.jupiter.api.*;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 
-import java.util.Arrays;
 import java.util.List;
 
 import static io.restassured.RestAssured.given;
@@ -207,6 +204,7 @@ class PersonControllerYamlTest /* extends AbstractIntegrationTest */{
 
         var response = given(specification)
                 .accept(MediaType.APPLICATION_YAML_VALUE)
+                .queryParams("page", 2 ,"size",12,"direction","asc")
                 .when()
                 .get()
                 .then()
@@ -214,31 +212,31 @@ class PersonControllerYamlTest /* extends AbstractIntegrationTest */{
                 .contentType(MediaType.APPLICATION_YAML_VALUE)
                 .extract()
                 .body()
-                .as(PersonDTO[].class, objectMapper);
+                .as(PagedModelPerson.class, objectMapper);
 
-        List<PersonDTO> people = Arrays.asList(response);
+        List<PersonDTO> people = response.getContent();
 
         PersonDTO personOne = people.get(0);
 
         assertNotNull(personOne.getId());
         assertTrue(personOne.getId() > 0);
 
-        assertEquals("Ayrton", personOne.getFirstName());
-        assertEquals("Senna", personOne.getLastName());
-        assertEquals("São Paulo - Brasil", personOne.getAddress());
+        assertEquals("Alexei", personOne.getFirstName());
+        assertEquals("Unger", personOne.getLastName());
+        assertEquals("14th Floor", personOne.getAddress());
         assertEquals("Male", personOne.getGender());
-        assertFalse(personOne.getEnabled());
+        assertTrue(personOne.getEnabled());
 
         PersonDTO personFour = people.get(4);
 
         assertNotNull(personFour.getId());
         assertTrue(personFour.getId() > 0);
 
-        assertEquals("Muhamamd", personFour.getFirstName());
-        assertEquals("Ali", personFour.getLastName());
-        assertEquals("Kentucky - US", personFour.getAddress());
+        assertEquals("Alic", personFour.getFirstName());
+        assertEquals("Nann", personFour.getLastName());
+        assertEquals("Suite 94", personFour.getAddress());
         assertEquals("Male", personFour.getGender());
-        assertTrue(personFour.getEnabled());
+        assertFalse(personFour.getEnabled());
     }
 
     private void mockPerson() {
