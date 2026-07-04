@@ -1,8 +1,11 @@
 cors:
   originPatterns: http://localhost:8080,http://localhost:3000,https://www.erudio.com.br
+
+file:
+  upload-dir: C:/Users/Vicente/Desktop/Aula java avançado/spring boot/UploadDir
+
 spring:
-  file:
-    upload-dir: C:/Users/Vicente/Desktop/Aula java avançado/spring boot/UploadDir
+
   application:
     name: rest-with-spring-boot-and-java-erudio
   datasource:
@@ -20,9 +23,9 @@ spring:
   servlet:
     multipart:
       enabled: true
-      file-size-threshold: 2kb
-      max-file-size: 200mb
-      max-request-size: 215mb
+      file-size-threshold: 2KB
+      max-file-size: 200MB
+      max-request-size: 215MB
 logging:
   level:
     root: INFO
