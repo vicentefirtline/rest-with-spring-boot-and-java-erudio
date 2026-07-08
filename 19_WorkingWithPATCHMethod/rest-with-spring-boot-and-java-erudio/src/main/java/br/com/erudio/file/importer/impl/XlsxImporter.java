@@ -32,7 +32,8 @@ public class XlsxImporter implements FileImporter {
         List<PersonDTO> people = new ArrayList<>();
         for (CSVRecord record: records){
             PersonDTO person = new PersonDTO();
-            person.setFirstName(record.get(""));
+            person.setFirstName(record.get("first_name"));
+            person.setFirstName(record.get("last_name"));
             people.add(person);
         }
         return people;
