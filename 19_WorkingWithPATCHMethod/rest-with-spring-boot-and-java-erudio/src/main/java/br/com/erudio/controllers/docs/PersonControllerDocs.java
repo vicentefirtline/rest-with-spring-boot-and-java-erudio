@@ -61,7 +61,7 @@ public interface PersonControllerDocs {
                     @ApiResponse(description = "Internal Server Error", responseCode = "500", content = @Content)
             }
     )
-    List<PersonDTO> massCreation(MultipartFile file);
+    List<PersonDTO> massCreation(MultipartFile file) throws Exception;
 
     @Operation(summary = "Find people by First Name",
             description = "ind people by their First Names",

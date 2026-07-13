@@ -15,6 +15,7 @@ public class CsvImporter implements FileImporter {
     @Override
     public List<PersonDTO> importFile(InputStream inputStream) throws Exception {
         CSVFormat format = CSVFormat.Builder.create()
+                .setDelimiter(';')
                 .setHeader()
                 .setSkipHeaderRecord(true)
                 .setIgnoreEmptyLines(true)
