@@ -1,6 +1,7 @@
 package br.com.erudio.file.exporter.factory;
 
 import br.com.erudio.exception.BadRequestException;
+import br.com.erudio.file.exporter.MediaTypes;
 import br.com.erudio.file.exporter.contract.FileExporter;
 import br.com.erudio.file.exporter.impl.CsvExporter;
 import br.com.erudio.file.exporter.impl.XlsxExporter;
@@ -18,11 +19,11 @@ public class FileExporterFactory {
     @Autowired
     private ApplicationContext context;
 
-    public FileExporter getExporter(String fileName) throws Exception {
-        if (fileName.endsWith(".xlsx")){
+    public FileExporter getExporter(String acceptHeader) throws Exception {
+        if (acceptHeader.equalsIgnoreCase(MediaTypes.APPLICATION_XLSX_VALUE)){
             return  context.getBean(XlsxExporter.class);
             //return  new XlsxImporter();
-        } else if(fileName.endsWith(".csv")) {
+        } else if(acceptHeader.equalsIgnoreCase(MediaTypes.APPLICATION_CSV_VALUE)) {
             return  context.getBean(CsvExporter.class);
            //return  new CsvImporter();
         } else {
