@@ -47,7 +47,7 @@ public class XlsxExporter  implements FileExporter {
             return new ByteArrayResource(outputStream.toByteArray());
 
         }
-       
+
     }
 
     private CellStyle createHeaderCellStyle(Workbook workbook) {
